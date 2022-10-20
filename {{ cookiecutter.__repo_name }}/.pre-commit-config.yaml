@@ -1,0 +1,82 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# set project python version
+default_language_version:
+  python: python{{ cookiecutter.__py_major_minor }}
+
+repos:
+  # general pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+        args: ["--maxkb=5120"]  # max 5MB
+
+  # black - code formatter
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+        name: black
+
+  # isort - sort imports
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort
+        args: ["--profile=black", "--filter-files"]
+
+  # flake8 - python linter
+  - repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+        args:
+          - "--max-line-length=88"
+          - "--extend-ignore=E203"
+          - "--exclude"
+          - ".git/,__pycache__"
+          - "--per-file-ignores=__init__.py:F401"
+
+  # pyupgrade - upgrade syntax to latest python version
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.1.0
+    hooks:
+      - id: pyupgrade
+        args: ["--py{{ cookiecutter.__py_major_minor.replace('.', '') }}-plus"]
+
+  # python docstring formatting
+  - repo: https://github.com/pycqa/docformatter
+    rev: v1.5.0
+    hooks:
+      - id: docformatter
+        additional_dependencies: [tomli]
+        args: ["--in-place", "--config", "./pyproject.toml"]
+{% if cookiecutter.use_jupyter == 'yes' %}
+
+  # nbqa - all the above but for notebooks
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.3.1
+    hooks:
+    - id: nbqa-black
+      additional_dependencies: [black==22.8.0]
+    - id: nbqa-isort
+      additional_dependencies: [isort==5.10.1]
+      args: ["--profile=black", "--filter-files"]
+    - id: nbqa-flake8
+      additional_dependencies: [flake8==5.0.4]
+      args: [
+        "--max-line-length=88",
+        "--extend-ignore=E203,E402"
+        ]
+    - id: nbqa-pyupgrade
+      additional_dependencies: [pyupgrade==2.37.3]
+      args: ["--py{{ cookiecutter.__py_major_minor.replace('.', '') }}-plus"]
+{% endif %}
