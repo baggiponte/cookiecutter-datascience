@@ -7,6 +7,8 @@
 [![docstyle numpy](https://img.shields.io/badge/%20style-numpy-459db9.svg)](https://numpydoc.readthedocs.io/en/latest/format.html)
 [![pre-commit enabled](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
+🍪 made with a [`cookiecutter`](https://github.com/baggiponte/cookiecutter-datascience/)
+
 ## Repo Structure
 
 ```
