@@ -52,8 +52,9 @@ ide = [
 {% endif %}
 [tool.docformatter]
 recursive = true
-wrap-summaries = 88
-wrap-descriptions = 88
+wrap-summaries = 75 
+wrap-descriptions = 75 
+close-quotes-on-newline = true
 
 [tool.pytest.ini_options]
 testpaths = "tests"
