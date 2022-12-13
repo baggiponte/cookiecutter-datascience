@@ -33,17 +33,11 @@ repos:
         name: isort
         args: ["--profile=black", "--filter-files"]
 
-  # flake8 - python linter
-  - repo: https://github.com/pycqa/flake8
-    rev: 5.0.4
+  # ruff - python linter
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.179
     hooks:
-      - id: flake8
-        args:
-          - "--max-line-length=88"
-          - "--extend-ignore=E203"
-          - "--exclude"
-          - ".git/,__pycache__"
-          - "--per-file-ignores=__init__.py:F401"
+      - id: ruff
 
   # pyupgrade - upgrade syntax to latest python version
   - repo: https://github.com/asottile/pyupgrade

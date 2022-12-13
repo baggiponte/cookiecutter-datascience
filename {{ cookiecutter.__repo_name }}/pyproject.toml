@@ -1,5 +1,6 @@
 [project]
 name = "{{ cookiecutter.package_name }}"
+description = ""
 authors = [
     {name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}"},
 ]
@@ -9,16 +10,11 @@ readme = "README.md"
 dynamic = ["version"]
 requires-python = ">={{ cookiecutter.__py_major_minor }}"
 
-[project.urls]
-Homepage = ""
-
-[project.optional-dependencies]
-
 [tool.pdm]
 version = {source = "file", path = "src/{{ cookiecutter.package_name }}/__init__.py"}
 
 [tool.pdm.build]
-excludes = ["./**/.git"]
+excludes = [".git"]
 package-dir = "src"
 source-includes = ["tests", "CHANGELOG.md", "LICENSE", "README.md"]
 
@@ -41,11 +37,28 @@ docs = [
 
 {% endif %}
 {% if cookiecutter.use_jupyter == 'yes' %}
-ide = [
+jupyter = [
     "jupyter>=1.0.0",
+    "ipykernel>=6.17.1",
 ]
 
 {% endif %}
+[tool.ruff]
+line-length = 88
+# numpy-docs
+extend-select = ["D"]
+extend-ignore = [
+    "D107",
+    "D203",
+    "D212",
+    "D213",
+    "D402",
+    "D413",
+    "D415",
+    "D416",
+    "D417",
+]
+
 [tool.docformatter]
 recursive = true
 wrap-summaries = 75 
@@ -57,7 +70,6 @@ testpaths = "tests"
 pythonpath = "src"
 
 [tool.pyright]
-include = ["src"]
 exclude = [ ".venv" ]
 venvPath = "."
 venv = ".venv"
